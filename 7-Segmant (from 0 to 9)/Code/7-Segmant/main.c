@@ -35,7 +35,7 @@ int main()
 		   }
       
 	  SET_Value_4LSB(PORT_C, Current_number);
-	  _delay_ms(200);   // we use delay function to solve debouncing problem
+	  _delay_ms(200);   // we use delay function to solve denouncing problem
 	}
 	return 0;
 }
