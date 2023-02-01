@@ -7,7 +7,7 @@
 #include"BIT_OP.h"
 #include"STD_TYPES.h"
 #include"DIO_Interface.h"
-#define F_CPU 8000000UL //1MHz Clock frequency
+#define F_CPU 8000000UL //8MHz Clock frequency
 #include <util/delay.h>  // For delay function
 
 int main(){

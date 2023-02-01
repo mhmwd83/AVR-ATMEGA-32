@@ -151,48 +151,48 @@ void SET_Direction_4LSB(u8 port, u8 direction)
 	case PORT_A:
 		if(direction == INPUT)
 		{
-			DDRA &= 0xF0; //set 4 LSB to zero
+			DDRA&=0xF0; //set 4 LSB to zero
 		}
 
 		else if(direction == OUTPUT)
 		{
-			DDRA &= 0x0F;  //set 4 LSB to one's
+			DDRA|=0x0F;  //set 4 LSB to one's
 		}
 		break;
 
 	case PORT_B:
 		if(direction == INPUT)
 		{
-			DDRB &= 0xF0; //set 4 LSB to zero
+			DDRB&=0xF0; //set 4 LSB to zero
 		}
 
 		else if(direction == OUTPUT)
 		{
-			DDRB &= 0x0F;  //set 4 LSB to one's
+			DDRB|=0x0F;  //set 4 LSB to one's
 		}
 		break;
 
 	case PORT_C:
 		if(direction == INPUT)
 		{
-			DDRC &= 0xF0; //set 4 LSB to zero
+			DDRC&=0xF0; //set 4 LSB to zero
 		}
 
 		else if(direction == OUTPUT)
 		{
-			DDRC &= 0x0F;  //set 4 LSB to one's
+			DDRC|=0x0F;  //set 4 LSB to one's
 		}
 		break;
 
 	case PORT_D:
 		if(direction == INPUT)
 		{
-			DDRD &= 0xF0; //set 4 LSB to zero
+			DDRD&=0xF0; //set 4 LSB to zero
 		}
 
 		else if(direction == OUTPUT)
 		{
-			DDRD &= 0x0F;  //set 4 LSB to one's
+			DDRD|=0x0F;  //set 4 LSB to one's
 		}
 		break;
 	}
@@ -206,36 +206,36 @@ void SET_Direction_4MSB(u8 port, u8 direction)
 	case PORT_A:
 		if(direction == INPUT)
 		{
-			DDRA &= 0x0F; //set 4 LSB to zero
+			DDRA&=0x0F; //set 4 LSB to zero
 		}
 
 		else if(direction == OUTPUT)
 		{
-			DDRA &= 0xF0;  //set 4 LSB to one's
+			DDRA|=0xF0;  //set 4 LSB to one's
 		}
 		break;
 
 	case PORT_B:
 		if(direction == INPUT)
 		{
-			DDRB &= 0x0F; //set 4 LSB to zero
+			DDRB&=0x0F; //set 4 LSB to zero
 		}
 
 		else if(direction == OUTPUT)
 		{
-			DDRB &= 0xF0;  //set 4 LSB to one's
+			DDRB|=0xF0;  //set 4 LSB to one's
 		}
 		break;
 
 	case PORT_C:
 		if(direction == INPUT)
 		{
-			DDRC &= 0x0F; //set 4 LSB to zero
+			DDRC&=0x0F; //set 4 LSB to zero
 		}
 
 		else if(direction == OUTPUT)
 		{
-			DDRC &= 0xF0;  //set 4 LSB to one's
+			DDRC|=0xF0;  //set 4 LSB to one's
 		}
 		break;
 
@@ -247,7 +247,7 @@ void SET_Direction_4MSB(u8 port, u8 direction)
 
 		else if(direction == OUTPUT)
 		{
-			DDRD &= 0xF0;  //set 4 LSB to one's
+			DDRD|=0xF0;  //set 4 LSB to one's
 		}
 		break;
 	}
@@ -260,52 +260,24 @@ void SET_Value_4LSB(u8 port, u8 value)
 	switch(port)
 	{
 	case PORT_A:
-		if(value == LOW)
-		{
 			PORTA &= 0xF0;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTA |= 0x0F;
-		}
+			PORTA |= value;
 		break;
 
 	case PORT_B:
-		if(value == LOW)
-		{
 			PORTB &= 0xF0;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTB |= 0x0F;
-		}
-		break;
-
+			PORTB |= value;
+			break;
+			
 	case PORT_C:
-		if(value == LOW)
-		{
-			PORTC&= 0xF0;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTC |= 0x0F;
-		}
-		break;
+			PORTC &= 0xF0;
+			PORTC |= value;
+			break;
 
 	case PORT_D:
-		if(value == LOW)
-		{
 			PORTD &= 0xF0;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTD |= 0x0F;
-		}
-		break;
+			PORTD |= value;
+			break;
 	}
 
 }
@@ -315,52 +287,24 @@ void SET_Value_4MSB(u8 port, u8 value)
 {
 	switch(port)
 	{
-	case PORT_A:
-		if(value == LOW)
-		{
-			PORTA &= 0x0F;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTA |= 0xF0;
-		}
+		case PORT_A:
+		PORTA &= 0x0F;
+		PORTA |= value;
 		break;
 
-	case PORT_B:
-		if(value == LOW)
-		{
-			PORTB &= 0x0F;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTB |= 0xF0;
-		}
+		case PORT_B:
+		PORTB &= 0x0F;
+		PORTB |= value;
+		break;
+		
+		case PORT_C:
+		PORTC &= 0x0F;
+		PORTC |= value;
 		break;
 
-	case PORT_C:
-		if(value == LOW)
-		{
-			PORTC&= 0x0F;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTC |= 0xF0;
-		}
-		break;
-
-	case PORT_D:
-		if(value == LOW)
-		{
-			PORTD &= 0x0F;
-		}
-
-		else if(value  == HIGH)
-		{
-			PORTD |= 0xF0;
-		}
+		case PORT_D:
+		PORTD &= 0x0F;
+		PORTD |= value;
 		break;
 	}
 
