@@ -14,11 +14,11 @@
 #include "DIO_Interface.h"
 
 
-int main())
+int main()
 {
-    SET_Direction(PORT_A,PIN_0,INPUT);
+    SET_Direction(PORT_D,PIN_2,INPUT);
 	SET_Direction(PORT_C,PIN_7,OUTPUT);
-	SET_Value(PORT_A,PIN_0,HIGH);
+	SET_Value(PORT_D,PIN_2,HIGH);
 	EXTI_Enable(0); //to enable external interrupt 0
 	Interrupt_Enable(); //for General interrupt enable
 	u8 flag=0;
@@ -39,8 +39,10 @@ int main())
 	return 0;
 }
 
-void __vector_1(void) __attribute__((signal));  //this  __attribute__((signal)) to tell the processor that is a function called by the hardware
-void __vector_1(void) 
-{
-	SET_Value(PORT_C,PIN_7,HIGH);
+//this  __attribute__((signal)) to tell the processor that is a function called by the hardware
+void __vector_1(void)  __attribute__((signal));
+void __vector_1(void){
+	SET_Value(PORT_C, PIN_7,HIGH);
+	_delay_ms(2000);
 }
+

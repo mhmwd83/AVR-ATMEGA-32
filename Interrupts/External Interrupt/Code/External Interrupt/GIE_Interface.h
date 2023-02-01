@@ -7,7 +7,7 @@
 #ifndef GIE_INTERFACE_H_
 #define GIE_INTERFACE_H_
 
-#define SREG (*(volatile u8*)(0x5F));
+#define SREG *((volatile u8*)0x5F)
 void Interrupt_Enable();
 
 #endif /* GIE_INTERFACE_H_ */

@@ -129,7 +129,7 @@
     <Compile Include="DIO_Program.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="EXTI_Interface.c">
+    <Compile Include="EXTI_Program.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="EXTI_Interface.h">

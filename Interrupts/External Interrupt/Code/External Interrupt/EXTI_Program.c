@@ -11,7 +11,7 @@
 #include "EXTI_Interface.h"
 
 
-EXTI_Enable(u8 INT_NUM)
+void EXTI_Enable(u8 INT_NUM)
 {
 	switch(INT_NUM)
 	{
@@ -20,8 +20,8 @@ EXTI_Enable(u8 INT_NUM)
 		        CLR_BIT(MCUCR,0);
 			    CLR_BIT(MCUCR,1);
             #elif Sense_Control==Any_Logical_Change
-                  SET_BIT(MCUCR,0);
-                  CLR_BIT(MCUCR,1);
+                  SET_BIT(MCUCR,2);
+                  CLR_BIT(MCUCR,3);
             #elif Sense_Control==FALLING_EDGE
                   CLR_BIT(MCUCR,0);
                   SET_BIT(MCUCR,1);
@@ -29,9 +29,10 @@ EXTI_Enable(u8 INT_NUM)
                   SET_BIT(MCUCR,0);
                   SET_BIT(MCUCR,1);
            #else
-           #error "Wrong Sense_Control"
+           #error "Wrong Sense Control"
            #endif
-           break;
+		           SET_BIT(GICR,6);
+                   break;
       
 	  	case 1:
             #if Sense_Control==LOW_Level
@@ -49,7 +50,8 @@ EXTI_Enable(u8 INT_NUM)
             #else
             #error "Wrong Sense_Control"
             #endif
-	  		break;
+			      SET_BIT(GICR,7);
+	  		      break;
 	}
 	
 }

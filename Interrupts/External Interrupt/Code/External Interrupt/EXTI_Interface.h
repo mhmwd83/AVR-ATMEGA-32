@@ -11,12 +11,12 @@
 #define Any_Logical_Change 1
 #define FALLING_EDGE 2
 #define RISING_EDGE 3
-#define Sense_Control Any_Logical_Change
+#define Sense_Control LOW_Level
 
-#define MCUCR (*(volatile u8*)(0x55));
-#define GICR (*(volatile u8*)(0x5B));
+#define MCUCR *((volatile u8*)0x55)
+#define GICR *((volatile u8*)0x5B)
 
-EXTI_Enable(u8 INT_NUM);
+void EXTI_Enable(u8 INT_NUM);
 
 
 
