@@ -3,29 +3,29 @@ Blink_LED.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000002f6  00000000  00000000  00000054  2**1
+  0 .text         000001c0  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  0000034a  2**0
+  1 .data         00000000  00800060  00800060  00000214  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000034a  2**0
+  2 .comment      00000030  00000000  00000000  00000214  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000037c  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000244  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000070  00000000  00000000  000003b8  2**0
+  4 .debug_aranges 00000098  00000000  00000000  00000280  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000008e6  00000000  00000000  00000428  2**0
+  5 .debug_info   0000093e  00000000  00000000  00000318  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000633  00000000  00000000  00000d0e  2**0
+  6 .debug_abbrev 000006a9  00000000  00000000  00000c56  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000004e1  00000000  00000000  00001341  2**0
+  7 .debug_line   00000566  00000000  00000000  000012ff  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000a8  00000000  00000000  00001824  2**2
+  8 .debug_frame  000000dc  00000000  00000000  00001868  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003a8  00000000  00000000  000018cc  2**0
+  9 .debug_str    00000414  00000000  00000000  00001944  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000565  00000000  00000000  00001c74  2**0
+ 10 .debug_loc    00000575  00000000  00000000  00001d58  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000050  00000000  00000000  000021d9  2**0
+ 11 .debug_ranges 00000068  00000000  00000000  000022cd  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -60,8 +60,8 @@ Disassembly of section .text:
   5a:	d8 e0       	ldi	r29, 0x08	; 8
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 52 01 	call	0x2a4	; 0x2a4 <main>
-  64:	0c 94 79 01 	jmp	0x2f2	; 0x2f2 <_exit>
+  60:	0e 94 ad 00 	call	0x15a	; 0x15a <main>
+  64:	0c 94 de 00 	jmp	0x1bc	; 0x1bc <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -239,303 +239,114 @@ void SET_Direction(u8 port, u8 pin, u8 direction)
  156:	81 bb       	out	0x11, r24	; 17
  158:	08 95       	ret
 
-0000015a <SET_Value>:
-
-
-/*   Function to set the value of the pin    */
-void SET_Value(u8 port, u8 pin, u8 value)
-{
-	switch(port)
- 15a:	81 30       	cpi	r24, 0x01	; 1
- 15c:	19 f1       	breq	.+70     	; 0x1a4 <SET_Value+0x4a>
- 15e:	30 f0       	brcs	.+12     	; 0x16c <SET_Value+0x12>
- 160:	82 30       	cpi	r24, 0x02	; 2
- 162:	e1 f1       	breq	.+120    	; 0x1dc <SET_Value+0x82>
- 164:	83 30       	cpi	r24, 0x03	; 3
- 166:	09 f4       	brne	.+2      	; 0x16a <SET_Value+0x10>
- 168:	54 c0       	rjmp	.+168    	; 0x212 <SET_Value+0xb8>
- 16a:	08 95       	ret
-	{
-	case PORT_A:
-		if(value == LOW)
- 16c:	41 11       	cpse	r20, r1
- 16e:	0c c0       	rjmp	.+24     	; 0x188 <SET_Value+0x2e>
-		{
-			CLR_BIT(PORTA,pin);
- 170:	2b b3       	in	r18, 0x1b	; 27
- 172:	81 e0       	ldi	r24, 0x01	; 1
- 174:	90 e0       	ldi	r25, 0x00	; 0
- 176:	02 c0       	rjmp	.+4      	; 0x17c <SET_Value+0x22>
- 178:	88 0f       	add	r24, r24
- 17a:	99 1f       	adc	r25, r25
- 17c:	6a 95       	dec	r22
- 17e:	e2 f7       	brpl	.-8      	; 0x178 <SET_Value+0x1e>
- 180:	80 95       	com	r24
- 182:	82 23       	and	r24, r18
- 184:	8b bb       	out	0x1b, r24	; 27
- 186:	08 95       	ret
-		}
-
-		else if(value  == HIGH)
- 188:	41 30       	cpi	r20, 0x01	; 1
- 18a:	09 f0       	breq	.+2      	; 0x18e <SET_Value+0x34>
- 18c:	5c c0       	rjmp	.+184    	; 0x246 <SET_Value+0xec>
-		{
-			SET_BIT(PORTA,pin);
- 18e:	2b b3       	in	r18, 0x1b	; 27
- 190:	81 e0       	ldi	r24, 0x01	; 1
- 192:	90 e0       	ldi	r25, 0x00	; 0
- 194:	02 c0       	rjmp	.+4      	; 0x19a <SET_Value+0x40>
- 196:	88 0f       	add	r24, r24
- 198:	99 1f       	adc	r25, r25
- 19a:	6a 95       	dec	r22
- 19c:	e2 f7       	brpl	.-8      	; 0x196 <SET_Value+0x3c>
- 19e:	82 2b       	or	r24, r18
- 1a0:	8b bb       	out	0x1b, r24	; 27
- 1a2:	08 95       	ret
-		}
-		break;
-
-	case PORT_B:
-		if(value == LOW)
- 1a4:	41 11       	cpse	r20, r1
- 1a6:	0c c0       	rjmp	.+24     	; 0x1c0 <SET_Value+0x66>
-		{
-			CLR_BIT(PORTB,pin);
- 1a8:	28 b3       	in	r18, 0x18	; 24
- 1aa:	81 e0       	ldi	r24, 0x01	; 1
- 1ac:	90 e0       	ldi	r25, 0x00	; 0
- 1ae:	02 c0       	rjmp	.+4      	; 0x1b4 <SET_Value+0x5a>
- 1b0:	88 0f       	add	r24, r24
- 1b2:	99 1f       	adc	r25, r25
- 1b4:	6a 95       	dec	r22
- 1b6:	e2 f7       	brpl	.-8      	; 0x1b0 <SET_Value+0x56>
- 1b8:	80 95       	com	r24
- 1ba:	82 23       	and	r24, r18
- 1bc:	88 bb       	out	0x18, r24	; 24
- 1be:	08 95       	ret
-		}
-
-		else if(value == HIGH)
- 1c0:	41 30       	cpi	r20, 0x01	; 1
- 1c2:	09 f0       	breq	.+2      	; 0x1c6 <SET_Value+0x6c>
- 1c4:	40 c0       	rjmp	.+128    	; 0x246 <SET_Value+0xec>
-		{
-			SET_BIT(PORTB,pin);
- 1c6:	28 b3       	in	r18, 0x18	; 24
- 1c8:	81 e0       	ldi	r24, 0x01	; 1
- 1ca:	90 e0       	ldi	r25, 0x00	; 0
- 1cc:	02 c0       	rjmp	.+4      	; 0x1d2 <SET_Value+0x78>
- 1ce:	88 0f       	add	r24, r24
- 1d0:	99 1f       	adc	r25, r25
- 1d2:	6a 95       	dec	r22
- 1d4:	e2 f7       	brpl	.-8      	; 0x1ce <SET_Value+0x74>
- 1d6:	82 2b       	or	r24, r18
- 1d8:	88 bb       	out	0x18, r24	; 24
- 1da:	08 95       	ret
-		}
-		break;
-
-	case PORT_C:
-		if(value == LOW)
- 1dc:	41 11       	cpse	r20, r1
- 1de:	0c c0       	rjmp	.+24     	; 0x1f8 <SET_Value+0x9e>
-		{
-			CLR_BIT(PORTC,pin);
- 1e0:	25 b3       	in	r18, 0x15	; 21
- 1e2:	81 e0       	ldi	r24, 0x01	; 1
- 1e4:	90 e0       	ldi	r25, 0x00	; 0
- 1e6:	02 c0       	rjmp	.+4      	; 0x1ec <SET_Value+0x92>
- 1e8:	88 0f       	add	r24, r24
- 1ea:	99 1f       	adc	r25, r25
- 1ec:	6a 95       	dec	r22
- 1ee:	e2 f7       	brpl	.-8      	; 0x1e8 <SET_Value+0x8e>
- 1f0:	80 95       	com	r24
- 1f2:	82 23       	and	r24, r18
- 1f4:	85 bb       	out	0x15, r24	; 21
- 1f6:	08 95       	ret
-		}
-
-		else if(value == HIGH)
- 1f8:	41 30       	cpi	r20, 0x01	; 1
- 1fa:	29 f5       	brne	.+74     	; 0x246 <SET_Value+0xec>
-		{
-			SET_BIT(PORTC,pin);
- 1fc:	25 b3       	in	r18, 0x15	; 21
- 1fe:	81 e0       	ldi	r24, 0x01	; 1
- 200:	90 e0       	ldi	r25, 0x00	; 0
- 202:	02 c0       	rjmp	.+4      	; 0x208 <SET_Value+0xae>
- 204:	88 0f       	add	r24, r24
- 206:	99 1f       	adc	r25, r25
- 208:	6a 95       	dec	r22
- 20a:	e2 f7       	brpl	.-8      	; 0x204 <SET_Value+0xaa>
- 20c:	82 2b       	or	r24, r18
- 20e:	85 bb       	out	0x15, r24	; 21
- 210:	08 95       	ret
-		}
-		break;
-
-	case PORT_D:
-		if(value == LOW)
- 212:	41 11       	cpse	r20, r1
- 214:	0c c0       	rjmp	.+24     	; 0x22e <SET_Value+0xd4>
-		{
-			CLR_BIT(PORTD,pin);
- 216:	22 b3       	in	r18, 0x12	; 18
- 218:	81 e0       	ldi	r24, 0x01	; 1
- 21a:	90 e0       	ldi	r25, 0x00	; 0
- 21c:	02 c0       	rjmp	.+4      	; 0x222 <SET_Value+0xc8>
- 21e:	88 0f       	add	r24, r24
- 220:	99 1f       	adc	r25, r25
- 222:	6a 95       	dec	r22
- 224:	e2 f7       	brpl	.-8      	; 0x21e <SET_Value+0xc4>
- 226:	80 95       	com	r24
- 228:	82 23       	and	r24, r18
- 22a:	82 bb       	out	0x12, r24	; 18
- 22c:	08 95       	ret
-		}
-
-		else if(value == HIGH)
- 22e:	41 30       	cpi	r20, 0x01	; 1
- 230:	51 f4       	brne	.+20     	; 0x246 <SET_Value+0xec>
-		{
-			SET_BIT(PORTD,pin);
- 232:	22 b3       	in	r18, 0x12	; 18
- 234:	81 e0       	ldi	r24, 0x01	; 1
- 236:	90 e0       	ldi	r25, 0x00	; 0
- 238:	02 c0       	rjmp	.+4      	; 0x23e <SET_Value+0xe4>
- 23a:	88 0f       	add	r24, r24
- 23c:	99 1f       	adc	r25, r25
- 23e:	6a 95       	dec	r22
- 240:	e2 f7       	brpl	.-8      	; 0x23a <SET_Value+0xe0>
- 242:	82 2b       	or	r24, r18
- 244:	82 bb       	out	0x12, r24	; 18
- 246:	08 95       	ret
-
-00000248 <GET_Value>:
-
-
-/*   Function to get the value of the pin    */
-u8 GET_Value(u8 port, u8 pin)
-{
-	switch(port)
- 248:	81 30       	cpi	r24, 0x01	; 1
- 24a:	79 f0       	breq	.+30     	; 0x26a <GET_Value+0x22>
- 24c:	28 f0       	brcs	.+10     	; 0x258 <GET_Value+0x10>
- 24e:	82 30       	cpi	r24, 0x02	; 2
- 250:	a9 f0       	breq	.+42     	; 0x27c <GET_Value+0x34>
- 252:	83 30       	cpi	r24, 0x03	; 3
- 254:	e1 f0       	breq	.+56     	; 0x28e <GET_Value+0x46>
- 256:	24 c0       	rjmp	.+72     	; 0x2a0 <GET_Value+0x58>
-	{
-	case PORT_A:
-		return GET_BIT(PINA,pin);
- 258:	89 b3       	in	r24, 0x19	; 25
- 25a:	90 e0       	ldi	r25, 0x00	; 0
- 25c:	02 c0       	rjmp	.+4      	; 0x262 <GET_Value+0x1a>
- 25e:	95 95       	asr	r25
- 260:	87 95       	ror	r24
- 262:	6a 95       	dec	r22
- 264:	e2 f7       	brpl	.-8      	; 0x25e <GET_Value+0x16>
- 266:	81 70       	andi	r24, 0x01	; 1
- 268:	08 95       	ret
-	    break;
-	case PORT_B:
-		return GET_BIT(PINB,pin);
- 26a:	86 b3       	in	r24, 0x16	; 22
- 26c:	90 e0       	ldi	r25, 0x00	; 0
- 26e:	02 c0       	rjmp	.+4      	; 0x274 <GET_Value+0x2c>
- 270:	95 95       	asr	r25
- 272:	87 95       	ror	r24
- 274:	6a 95       	dec	r22
- 276:	e2 f7       	brpl	.-8      	; 0x270 <GET_Value+0x28>
- 278:	81 70       	andi	r24, 0x01	; 1
- 27a:	08 95       	ret
-	    break;
-	case PORT_C:
-		return GET_BIT(PINC,pin);
- 27c:	83 b3       	in	r24, 0x13	; 19
- 27e:	90 e0       	ldi	r25, 0x00	; 0
- 280:	02 c0       	rjmp	.+4      	; 0x286 <GET_Value+0x3e>
- 282:	95 95       	asr	r25
- 284:	87 95       	ror	r24
- 286:	6a 95       	dec	r22
- 288:	e2 f7       	brpl	.-8      	; 0x282 <GET_Value+0x3a>
- 28a:	81 70       	andi	r24, 0x01	; 1
- 28c:	08 95       	ret
-	    break;
-	case PORT_D:
-		return GET_BIT(PIND,pin);
- 28e:	80 b3       	in	r24, 0x10	; 16
- 290:	90 e0       	ldi	r25, 0x00	; 0
- 292:	02 c0       	rjmp	.+4      	; 0x298 <GET_Value+0x50>
- 294:	95 95       	asr	r25
- 296:	87 95       	ror	r24
- 298:	6a 95       	dec	r22
- 29a:	e2 f7       	brpl	.-8      	; 0x294 <GET_Value+0x4c>
- 29c:	81 70       	andi	r24, 0x01	; 1
- 29e:	08 95       	ret
-	    break;
-	}
-	return 0;
- 2a0:	80 e0       	ldi	r24, 0x00	; 0
-}
- 2a2:	08 95       	ret
-
-000002a4 <main>:
-#include"STD_TYPES.h"
-#include"DIO_Interface.h"
+0000015a <main>:
+#include <util/delay.h>  // For delay function
 
 int main()
 {
-	SET_Direction(PORT_A,PIN_2,INPUT);  //SET pin2 in port A as an input
- 2a4:	40 e0       	ldi	r20, 0x00	; 0
- 2a6:	62 e0       	ldi	r22, 0x02	; 2
- 2a8:	80 e0       	ldi	r24, 0x00	; 0
- 2aa:	0e 94 36 00 	call	0x6c	; 0x6c <SET_Direction>
-	SET_Direction(PORT_C,PIN_7,OUTPUT);  //SET pin7 in port C as an output
- 2ae:	41 e0       	ldi	r20, 0x01	; 1
- 2b0:	67 e0       	ldi	r22, 0x07	; 7
- 2b2:	82 e0       	ldi	r24, 0x02	; 2
- 2b4:	0e 94 36 00 	call	0x6c	; 0x6c <SET_Direction>
-	SET_Value(PORT_A, PIN_2, HIGH); //Enable internal pull up resistor for port A
- 2b8:	41 e0       	ldi	r20, 0x01	; 1
- 2ba:	62 e0       	ldi	r22, 0x02	; 2
- 2bc:	80 e0       	ldi	r24, 0x00	; 0
- 2be:	0e 94 ad 00 	call	0x15a	; 0x15a <SET_Value>
-	while(1)
-	{
-		if(GET_Value(PORT_A,PIN_2) == LOW)
- 2c2:	62 e0       	ldi	r22, 0x02	; 2
- 2c4:	80 e0       	ldi	r24, 0x00	; 0
- 2c6:	0e 94 24 01 	call	0x248	; 0x248 <GET_Value>
- 2ca:	81 11       	cpse	r24, r1
- 2cc:	06 c0       	rjmp	.+12     	; 0x2da <main+0x36>
-		{
-			SET_Value(PORT_C,PIN_7,HIGH);
- 2ce:	41 e0       	ldi	r20, 0x01	; 1
- 2d0:	67 e0       	ldi	r22, 0x07	; 7
- 2d2:	82 e0       	ldi	r24, 0x02	; 2
- 2d4:	0e 94 ad 00 	call	0x15a	; 0x15a <SET_Value>
- 2d8:	f4 cf       	rjmp	.-24     	; 0x2c2 <main+0x1e>
-		}
 
-		else if(GET_Value(PORT_A,PIN_2) == HIGH)
- 2da:	62 e0       	ldi	r22, 0x02	; 2
- 2dc:	80 e0       	ldi	r24, 0x00	; 0
- 2de:	0e 94 24 01 	call	0x248	; 0x248 <GET_Value>
- 2e2:	81 30       	cpi	r24, 0x01	; 1
- 2e4:	71 f7       	brne	.-36     	; 0x2c2 <main+0x1e>
-		{
-			SET_Value(PORT_C,PIN_7,LOW);
- 2e6:	40 e0       	ldi	r20, 0x00	; 0
- 2e8:	67 e0       	ldi	r22, 0x07	; 7
- 2ea:	82 e0       	ldi	r24, 0x02	; 2
- 2ec:	0e 94 ad 00 	call	0x15a	; 0x15a <SET_Value>
- 2f0:	e8 cf       	rjmp	.-48     	; 0x2c2 <main+0x1e>
+	SET_Direction(PORT_D,PIN_5,OUTPUT);
+ 15a:	41 e0       	ldi	r20, 0x01	; 1
+ 15c:	65 e0       	ldi	r22, 0x05	; 5
+ 15e:	83 e0       	ldi	r24, 0x03	; 3
+ 160:	0e 94 36 00 	call	0x6c	; 0x6c <SET_Direction>
+	Timer1_init();
+ 164:	0e 94 c3 00 	call	0x186	; 0x186 <Timer1_init>
+	SET_OCR_Value(15624);
+ 168:	88 e0       	ldi	r24, 0x08	; 8
+ 16a:	9d e3       	ldi	r25, 0x3D	; 61
+ 16c:	0e 94 db 00 	call	0x1b6	; 0x1b6 <SET_OCR_Value>
+	    // if set, it means that there has been a compare match
+	    // and the timer has been cleared
+	    // use this opportunity to toggle the led
+	    if (TIFR & (1 << 4)) // NOTE: '>=' used instead of '=='
+	    {
+		   PORTD ^= (1 << 5); // toggles the led
+ 170:	90 e2       	ldi	r25, 0x20	; 32
+    {
+	    // check whether the flag bit is set
+	    // if set, it means that there has been a compare match
+	    // and the timer has been cleared
+	    // use this opportunity to toggle the led
+	    if (TIFR & (1 << 4)) // NOTE: '>=' used instead of '=='
+ 172:	08 b6       	in	r0, 0x38	; 56
+ 174:	04 fe       	sbrs	r0, 4
+ 176:	03 c0       	rjmp	.+6      	; 0x17e <main+0x24>
+	    {
+		   PORTD ^= (1 << 5); // toggles the led
+ 178:	82 b3       	in	r24, 0x12	; 18
+ 17a:	89 27       	eor	r24, r25
+ 17c:	82 bb       	out	0x12, r24	; 18
+	    }
+	    
+	    // wait! we are not done yet!
+	    // clear the flag bit manually since there is no ISR to execute
+	    // clear it by writing '1' to it (as per the datasheet)
+		CLR_BIT(TIFR,4); //TIFR |= (1 << OCF1A);
+ 17e:	88 b7       	in	r24, 0x38	; 56
+ 180:	8f 7e       	andi	r24, 0xEF	; 239
+ 182:	88 bf       	out	0x38, r24	; 56
+	    
+	    
+	    // yeah, now we are done!
+    }
+ 184:	f6 cf       	rjmp	.-20     	; 0x172 <main+0x18>
 
-000002f2 <_exit>:
- 2f2:	f8 94       	cli
+00000186 <Timer1_init>:
 
-000002f4 <__stop_program>:
- 2f4:	ff cf       	rjmp	.-2      	; 0x2f4 <__stop_program>
+void Timer1_init()
+{
+	
+	// set up timer with CTC mode
+	CLR_BIT(TCCR1A,0);
+ 186:	8f b5       	in	r24, 0x2f	; 47
+ 188:	8e 7f       	andi	r24, 0xFE	; 254
+ 18a:	8f bd       	out	0x2f, r24	; 47
+	CLR_BIT(TCCR1A,1);
+ 18c:	8f b5       	in	r24, 0x2f	; 47
+ 18e:	8d 7f       	andi	r24, 0xFD	; 253
+ 190:	8f bd       	out	0x2f, r24	; 47
+	SET_BIT(TCCR1B,3);
+ 192:	8e b5       	in	r24, 0x2e	; 46
+ 194:	88 60       	ori	r24, 0x08	; 8
+ 196:	8e bd       	out	0x2e, r24	; 46
+	CLR_BIT(TCCR1B,4);
+ 198:	8e b5       	in	r24, 0x2e	; 46
+ 19a:	8f 7e       	andi	r24, 0xEF	; 239
+ 19c:	8e bd       	out	0x2e, r24	; 46
+	// set up timer with prescaler = 1024
+	SET_BIT(TCCR1B,0);
+ 19e:	8e b5       	in	r24, 0x2e	; 46
+ 1a0:	81 60       	ori	r24, 0x01	; 1
+ 1a2:	8e bd       	out	0x2e, r24	; 46
+	CLR_BIT(TCCR1B,1);
+ 1a4:	8e b5       	in	r24, 0x2e	; 46
+ 1a6:	8d 7f       	andi	r24, 0xFD	; 253
+ 1a8:	8e bd       	out	0x2e, r24	; 46
+	SET_BIT(TCCR1B,2);
+ 1aa:	8e b5       	in	r24, 0x2e	; 46
+ 1ac:	84 60       	ori	r24, 0x04	; 4
+ 1ae:	8e bd       	out	0x2e, r24	; 46
+	
+	// initialize counter
+	TCNT1 = 0;
+ 1b0:	1d bc       	out	0x2d, r1	; 45
+ 1b2:	1c bc       	out	0x2c, r1	; 44
+ 1b4:	08 95       	ret
+
+000001b6 <SET_OCR_Value>:
+}
+
+
+void SET_OCR_Value(u16 OCR_Value)
+{
+	OCR1 = OCR_Value;
+ 1b6:	9b bd       	out	0x2b, r25	; 43
+ 1b8:	8a bd       	out	0x2a, r24	; 42
+ 1ba:	08 95       	ret
+
+000001bc <_exit>:
+ 1bc:	f8 94       	cli
+
+000001be <__stop_program>:
+ 1be:	ff cf       	rjmp	.-2      	; 0x1be <__stop_program>

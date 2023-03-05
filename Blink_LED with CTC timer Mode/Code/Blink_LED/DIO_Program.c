@@ -91,6 +91,7 @@ void SET_Value(u8 port, u8 pin, u8 value)
 		{
 			SET_BIT(PORTB,pin);
 		}
+		
 		break;
 
 	case PORT_C:

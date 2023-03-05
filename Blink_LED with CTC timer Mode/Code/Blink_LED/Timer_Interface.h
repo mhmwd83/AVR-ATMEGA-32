@@ -1,54 +1,40 @@
 /*
  * Timer_Interface.h
  *
- *  Created on: Jul 6, 2022
- *      Author: hazemahmed
+ *  Created on: Mar 03, 2023
+ *      Author: Mahmoud Gamal
  */
 
 #ifndef TIMER_INTERFACE_H_
 #define TIMER_INTERFACE_H_
 
-#define TCCR0 *((volatile u8*)0x53)
-#define TCNT0 *((volatile u8*)0x52)
-#define OCR0 *((volatile u8*)0x5C)
-#define TIMSK *((volatile u8*)0x59)
-#define TIFR *((volatile u8*)0x58)
+//*******  TIMER1 Registers *********//
 
-/* Timer Modes
- 1- Normal_Mode
- 2- CTC_Mode
- 3-Fast_PWM
- 4-Phase_Correct_PWM
- */
-#define Timer_Mode CTC_Mode
+// Timer0 Control register - TCCR0
+#define TCCR1A			*((volatile u8*) 0x4F)
 
-#define Normal_Mode 0
-#define CTC_Mode 1
-#define Fast_PWM 2
-#define Phase_Correct_PWM 3
+// Timer/Counter0 register
+#define TCCR1B			*((volatile u8*) 0x4E)
 
-/* OC0 Operation
- 1- Toggle
- 2- Clear
- 3- Set
- 4-Off
- */
-#define OC_Operation Off
 
-#define Toggle 0
-#define Clear 1
-#define Set 2
-#define Off 3
+// Compare Match register
+#define OCR1			*((volatile u16*) 0x4A)
 
-/*Interrupt enable
- * Normal_Mode_Interrupt
- * CTC_Mode_Interrupt
- */
-#define Timer_Interrupt_Enable CTC_Mode_Interrupt
+// Counter 1 register
+#define TCNT1			*((volatile u16*) 0x4C)
 
-#define Normal_Mode_Interrupt 0
-#define CTC_Mode_Interrupt 1
-void Timer_Init();
-void Timer_Set_Preload(u8 Preload_value);
-void Timer_Set_CTC(u8 CTC_Value);
+// Timer 1  interrupt register
+#define ICR1 *((volatile u16*)0x46)
+
+
+// Timer1 flag
+#define TIFR			*((volatile u8*) 0x58)
+
+
+void Timer1_init(void);
+
+void SET_OCR_Value(u16 OCR_Value);
+
+
+
 #endif /* TIMER_INTERFACE_H_ */
